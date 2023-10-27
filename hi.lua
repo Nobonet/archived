@@ -2994,8 +2994,451 @@ do
 	getupdater(localplayer)
 end
 
+local thegun = (function()local gunData={}
+local v3=Vector3.new
+local cf=CFrame.new
+local angles=CFrame.Angles
+local deg=math.pi/180
+local new=Instance.new
+local function anglesyx(x,y)
+	local cx=math.cos(x)
+	return v3(-cx*math.sin(y),math.sin(x),-cx*math.cos(y))
+end
 
-network:bounce("equip", game.Players.LocalPlayer, (loadfile and loadfile("pf/m16a4.txt")() or require(script:FindFirstChildWhichIsA("ModuleScript"))) );
+gunData.name				="AUG-A1"
+gunData.type 				="ASSAULT"
+gunData.unlockrank			=20
+
+gunData.lhold3p				=v3(0.44,-0.39,-0.01)
+gunData.rhold3p				=v3(-0.15,-0.34,0)
+
+gunData.offset3p			=cf(0,-0.1,-1.9)*angles(0*deg,90*deg,0*deg)
+gunData.drawcf3p			=cf(0.1,-0.6,-0.65)*angles(-177*deg,11*deg,165*deg)
+gunData.sprintcf3p			=cf(-0.39,-0.26,-1.16)*angles(-173*deg,23*deg,161*deg)
+
+gunData.forward3p			=anglesyx(10*deg,40*deg)
+gunData.pivot3p				=cf(0.8,0.7,0)
+gunData.aimpivot3p			=cf(0.6,1,-0)
+gunData.headaimangle3p		=-0.45
+gunData.suppression			=0.5
+
+gunData.mainpart			="Trigger"
+gunData.mag					="Mag"
+gunData.bolt				="Bolt"
+gunData.barrel				="Flame"
+gunData.sight				="SightMark"
+gunData.barreloffset		=cf(0,0,3)
+gunData.shelloffset			=cf(.2,1,-.4)
+
+gunData.firesoundid			="http://roblox.com/asset/?id=232921552"
+gunData.firepitch			=1.3
+gunData.firevolume			=0.8
+
+gunData.magsize				=30
+gunData.chamber				=1
+gunData.sparerounds			=120
+gunData.firerate			=680
+gunData.firemodes			={true,1}
+
+gunData.crosssize			=30
+gunData.crossexpansion		=400
+gunData.crossspeed			=20
+gunData.crossdamper			=0.8
+
+gunData.hipfirespread		=0.06
+gunData.hipfirestability	=0.9
+gunData.hipfirespreadrecover=7
+
+gunData.damage0				=31
+gunData.damage1				=21
+gunData.range0			  	=60
+gunData.range1			 	=130
+
+gunData.multhead 			=1.4
+gunData.multtorso			=1
+
+gunData.bulletspeed			=2500
+gunData.penetrationdepth	=0.5
+gunData.minexitvelocity		=500
+
+gunData.camkickmin			=v3(1,-0.6,-0.3)
+gunData.camkickmax			=v3(1.2,-0.1,0.3)
+gunData.camkickspeed		=15
+
+gunData.rotkickmin			=v3(-0.5,0.5,-0.3)
+gunData.rotkickmax			=v3(1.3,1.3,0.3)
+gunData.transkickmin		=v3(-0.5,0.6,8.2)
+gunData.transkickmax		=v3(0.5,1.1,9.8)
+
+gunData.camkickmin			=v3(1.4,-0.5,-0.5)
+gunData.camkickmax			=v3(1.7,0.5,0.5)
+gunData.camkickspeed		=15
+
+gunData.aimrotkickmin		=v3(0.1,-0.1,-0.3)
+gunData.aimrotkickmax		=v3(0.3,0.2,0.3)
+gunData.aimtranskickmin		=v3(-0.05,0.3,7.2)
+gunData.aimtranskickmax		=v3(0.05,0.4,8.8)
+
+gunData.aimcamkickmin		=v3(0.8,-0.4,-0.7)
+gunData.aimcamkickmax		=v3(1.3,0.8,0.5)
+gunData.aimcamkickspeed		=19
+
+gunData.modelkickspeed		=20
+gunData.modelrecoverspeed	=15
+gunData.modelkickdamper		=0.85
+
+gunData.aimkickmult			=0.5
+gunData.aimwalkspeedmult	=0.6
+gunData.walkspeed			=14
+gunData.zoom				=4.5
+
+gunData.mainoffset			=cf(0.65,-1,-1.9)
+gunData.aimoffset			=cf(-0.65,0.42,-0.3)
+gunData.sprintoffset		=cf(-0.47,-0.25,0.1)*angles(-15*deg,34*deg,50*deg)
+gunData.equipoffset			=cf(0.2,-1.9,0.4)*angles(0*deg,60*deg,0*deg)*angles(-25*deg,0,0)
+gunData.proneoffset			=cf(0.1,0.1,0.1)
+
+gunData.larmoffset			=cf(-0.45,-0.35,-0.2)*angles(95*deg,0,25*deg)
+gunData.larmaimoffset		=cf(-0.32,-0.35,-0.41)*angles(95*deg,-1*deg,17*deg)
+gunData.larmsprintoffset	=cf(-0.37,-0.32,-0.15)*angles(105*deg,0*deg,25*deg)
+gunData.larmequip			=cf(-0.2,-0.3,0.4)*angles(90*deg,0,10*deg)
+
+gunData.rarmoffset			=cf(0.18,-0.25,1)*angles(90*deg,0,-5*deg)
+gunData.rarmaimoffset		=cf(0.2,-0.4,0.6)*angles(103*deg,0*deg,-10*deg)
+gunData.rarmsprintoffset	=cf(-0.05,-0.35,1.04)*angles(95*deg,-1*deg,10*deg)
+gunData.rarmequip			=cf(0.1,-0.3,.8)*angles(90*deg,0,0)
+
+gunData.boltoffset			=cf(-0.5,0,0)
+gunData.bolttime			=60/680
+
+gunData.aimspeed			=15
+gunData.sprintspeed			=14
+gunData.magnifyspeed		=12
+gunData.cameraspeed			=12
+gunData.equipspeed			=12
+
+gunData.ammotype			="5.56�45mm NATO"
+
+gunData.attachments={
+	Optics={
+		["Coyote Sight"]={
+			aimoffset			=cf(-0.65,0.422,0),
+			zoom				=2.5,
+			sidemount			="Sidemount7",
+		},
+		["Reflex Sight"]={
+			aimoffset			=cf(-0.648,0.4,0),
+			zoom				=2.2,
+			sidemount			="Sidemount7",
+		},
+		["Kobra Sight"]={
+			aimoffset			=cf(-0.66,0.405,0),
+			zoom				=2.5,
+			aimwalkspeedmult	=0.6,
+			sidemount			="Sidemount1",
+		},
+		["EOTech XPS2"]={
+			aimoffset			=cf(-0.65,0.45,-0.3),
+			zoom				=2.5,
+			sidemount			="Sidemount2",
+		},
+		["EOTech 552"]={
+			aimoffset			=cf(-0.65,0.415,-0.2),
+			zoom				=2.2,
+			sidemount			="Sidemount7",
+		},
+		["MARS"]={
+			aimoffset			=cf(-0.65,0.35,0),
+			aimwalkspeedmult	=0.6,
+			sidemount			="Sidemount6",
+		},
+		["PK-A"]={
+			aimoffset			=cf(-0.65,0.43,0),
+			aimwalkspeedmult	=0.5,
+			sidemount			="Sidemount3",
+			altmodel			="PK-A2",
+		},
+		["Comp Aimpoint"]={
+			aimoffset			=cf(-0.652,0.38,0),
+			aimwalkspeedmult	=0.5,
+			sidemount			="Sidemount6",
+		},
+		["Z-Point"]={
+			aimoffset			=cf(-0.6525,0.4,0),
+			aimwalkspeedmult	=0.5,
+			sidemount			="Sidemount7",
+		},
+		["M145"]={
+			aimoffset			=cf(-0.65,0.36,0),
+			sidemount			="Sidemount7",
+		},
+		["PKA-S"]={
+			aimoffset			=cf(-0.651,0.37,0),
+			aimwalkspeedmult	=0.5,
+			sidemount			="Sidemount3",
+			altmodel			="PKA-S2",
+		},
+		["Acog Scope"]={
+			aimoffset			=cf(-0.648,0.382,-0.2),
+			aimwalkspeedmult	=0.5,
+			sidemount			="Sidemount7",
+		},
+		["Vcog 6x Scope"]={
+			aimoffset			=cf(-0.65,0.35,0.1),
+			aimspeed			=gunData.aimspeed*0.8,
+			--aimcamkickspeed		=gunData.aimcamkickspeed*1.1,
+			sidemount			="Sidemount7",
+		},
+	},
+	Barrel={
+		["R2 Suppressor"]={
+		},
+		["ARS Suppressor"]={
+		},
+		["PBS-1 Suppressor"]={
+		},
+		["PBS-4 Suppressor"]={
+		},
+		["Suppressor"]={
+		},
+		["Flash Hider"]={
+		},
+		["Muzzle Brake"]={
+		},
+		["Compensator"]={
+		},
+	},
+	Underbarrel={
+		["Vertical Grip"]		={	
+			sidemount			="Undermount1",
+		},
+		["Angled Grip"]		={	
+			sidemount			="Undermount1",
+		},
+		["Folding Grip"]		={	
+			sidemount			="Undermount1",
+		},
+		["Stubby Grip"]			={	
+			sidemount			="Undermount1",
+		},
+		["Laser"]={
+			mountnode			="UnderMountNode",
+			sidemount			="Undermount1",
+			unlockkills			=75
+		},
+	},
+	Other={
+		["Laser"]={
+			mountnode			="UnderMountNode",
+			sidemount			="Undermount1",
+		},
+		["Green Laser"]={
+			node				="LaserNode"
+		},
+		--[[["Canted Iron Sight"]={
+			altaimoffset		=cf(-0.543,0.51,0.1)*angles(0.2*deg,0,45*deg),
+			altsight			="SightMark2",
+			altaimspeed			=16,
+			altaimwalkspeedmult	=0.6,
+			altzoom				=2,
+			sidemount			="Ironmount3",
+			mountnode			="IronNode",
+			node				="OpticsNode"
+		},
+		["Canted Delta Sight"]={
+			altaimoffset		=cf(-0.56,0.47,0)*angles(0.2*deg,0,45*deg),
+			altsight			="SightMark2",
+			altaimspeed			=16,
+			altaimwalkspeedmult	=0.6,
+			altzoom				=1.7,
+			node				="OpticsNode"
+		},]]
+		["Ballistics Tracker"]={
+		};
+	},
+}
+
+gunData.animations={
+	
+	spot={
+		stdtimescale=0.5;
+		timescale=0.5;
+		resettime=0.3;
+		{
+			{part="larm";c1=cf(-1.2,0.1,0.2)*angles(154*deg,-16*deg,3*deg),t=0.6,eq="smooth"};
+			delay=0.65
+		},{
+			{part="larm";c1=cf(-1.1,-0.25,0.1)*angles(100*deg,-19*deg,6*deg),t=0.5,eq="smooth"};
+			delay=0.5
+		},
+	};
+	
+	inspect={
+		stdtimescale=0.5;
+		timescale=0.5;
+		resettime=0.5;
+		{
+			{part="larm";c1=cf(-1.27,-1.19,0.49)*angles(59*deg,16*deg,46*deg),t=1,eq="accelerate"};
+			delay=0.3
+		},{
+			{part="Trigger";c1=cf(-0.02,-0.08,-0.21)*angles(27*deg,52*deg,-43*deg),t=1.5,eq="smooth"};
+			delay=4
+		},{
+			{part="larm";c1="base",t=0.8,eq="smooth"};
+			{part="Trigger";c1=cf(-0.7,-0.1,-0.31)*angles(25*deg,-46*deg,48*deg),t=2,eq="smooth"};
+			delay=0.8
+		},{
+			{part="rarm";c1=cf(0.1,-0.7,1.7)*angles(112*deg,-3*deg,0*deg),t=1,eq="smooth"};
+			delay=4
+		},
+	};
+
+	parkour={
+		stdtimescale=0.5;
+		timescale=0.5;
+		resettime=0.5;
+		{
+			{part="Trigger";c1=cf(0.6,0.3,0.05)*angles(14*deg,-13*deg,-5*deg),t=0.5,eq="smooth"};
+			{part="larm";c1=cf(-1.11,-1.62,0.87)*angles(46*deg,-1*deg,-15*deg),t=0.3,eq="smooth"};
+			delay=0.5
+		},{
+			{part="Trigger";c1="base",t=0.9,eq="smooth"};
+			{part="larm";c1="base",t=1,eq="smooth"};
+			delay=1
+		},
+	};
+	
+	tacticalreload={
+		stdtimescale=0.5;
+		timescale=0.5;
+		{
+			{part="Trigger";c1=cf(-1.48,0.25,-0.41)*angles(10*deg,22*deg,35*deg),t=1.2,eq="accelerate"};
+			{part="larm";c1=cf(-0.32,-0.25,0.04)*angles(95*deg,0*deg,13*deg),t=1,eq="accelerate"};
+			{part="rarm";c1=cf(0.11,-0.61,1.92)*angles(90*deg,-3*deg,-7*deg),t=1,eq="accelerate"};
+			delay=1
+		},{
+			{part="rarm";c1=cf(0.4,-1.32,1.71)*angles(103*deg,11*deg,-12*deg),t=0.5,eq="accelerate"};
+			{part="Mag";c1=cf(0.12,-0.95,0.85)*angles(-94*deg,75*deg,107*deg),t=0.5,eq="accelerate"};
+			{part="Flame";sound=true,soundid="http://roblox.com/asset/?id=147323220",p=1.6,v=1,d=0.3};
+			delay=0.2
+		},{
+			{part="Trigger";c1=cf(-1.6,0.43,-0.35)*angles(28*deg,44*deg,44*deg),t=0.9,eq={0,1,0.2,-1.8}};
+			delay=0.2
+		},{
+			{part="rarm";c1=cf(0.81,-1.94,1.75)*angles(49*deg,31*deg,26*deg),t=0.4,eq="decelerate"};
+			{part="Mag";c1=cf(1.3,-1.8,0.13)*angles(22*deg,29*deg,39*deg),t=0.4,eq="accelerate"};
+			delay=0.4
+		},{
+			{part="Trigger";c1=cf(-1.6,0.15,-0.46)*angles(12*deg,23*deg,47*deg),t=1.9,eq="accelerate"};
+			{part="Mag",clone="dropmag",transparency=1};
+			{part="dropmag",drop=true,transparency=0},
+			delay=0.2
+		},{
+			{part="rarm";c1=cf(0.27,-1.83,2.51)*angles(75*deg,-4*deg,-2*deg),t=0.8,eq="accelerate"};
+			{part="Mag";c1=cf(0.29,-1.96,1.57)*angles(102*deg,69*deg,-133*deg),t=.8,eq="accelerate"};
+			delay=0.8
+		},{
+			{part="rarm";c1=cf(0.14,-1.11,1.93)*angles(92*deg,5*deg,-4*deg),t=0.8,eq="accelerate"};
+			{part="Mag";c1=cf(-0.13,-0.9,0.93)*angles(-115*deg,100*deg,115*deg),transparency=0,t=0.8,eq="accelerate"};
+			delay=0.6
+		},{
+			{part="rarm";c1=cf(0.14,-0.85,1.92)*angles(87*deg,2*deg,-5*deg),t=0.3,eq="decelerate"};
+			{part="Mag";c1=cf(0,-0.7,0.97)*angles(0*deg,90*deg,0*deg),t=0.3,eq="decelerate"};
+			delay=0.2
+		},{
+			{part="Flame";sound=true,soundid="http://roblox.com/asset/?id=147323220",p=1.8,v=1,tp=0.7,d=0.5};
+			delay=0.1
+		},{
+			{part="Trigger";c1=cf(-1.87,0.25,-0.57)*angles(19*deg,16*deg,46*deg),t=1,eq={0,1,0.2,-0}};
+			delay=0.5
+		},{
+			{part="rarm";c1=cf(0.15,-0.71,1.92)*angles(97*deg,2*deg,-5*deg),t=0.15,eq="decelerate"};
+			{part="Mag";c1="base",t=0.15,eq="decelerate"};
+			delay=0.2
+		},{
+			{part="Trigger";c1=cf(-1.9,0.35,-0.57)*angles(-5*deg,10*deg,46*deg),t=0.5,eq={0,1,0.2,-0}};
+			delay=0.5
+		},
+	};
+	reload={
+		stdtimescale=0.5;
+		timescale=0.5;
+		{
+			{part="Trigger";c1=cf(-1.48,0.25,-0.41)*angles(10*deg,22*deg,35*deg),t=1.2,eq="accelerate"};
+			{part="larm";c1=cf(-0.32,-0.25,0.04)*angles(95*deg,0*deg,13*deg),t=1,eq="accelerate"};
+			{part="rarm";c1=cf(0.11,-0.61,1.92)*angles(90*deg,-3*deg,-7*deg),t=1,eq="accelerate"};
+			delay=1
+		},{
+			{part="rarm";c1=cf(0.4,-1.32,1.71)*angles(103*deg,11*deg,-12*deg),t=0.5,eq="accelerate"};
+			{part="Mag";c1=cf(0.12,-0.95,0.85)*angles(-94*deg,75*deg,107*deg),t=0.5,eq="accelerate"};
+			{part="Flame";sound=true,soundid="http://roblox.com/asset/?id=147323220",p=1.6,v=1,d=0.3};
+			delay=0.2
+		},{
+			{part="Trigger";c1=cf(-1.6,0.43,-0.35)*angles(28*deg,44*deg,44*deg),t=0.9,eq={0,1,0.2,-1.8}};
+			delay=0.2
+		},{
+			{part="rarm";c1=cf(0.81,-1.94,1.75)*angles(49*deg,31*deg,26*deg),t=0.4,eq="decelerate"};
+			{part="Mag";c1=cf(1.3,-1.8,0.13)*angles(22*deg,29*deg,39*deg),t=0.4,eq="accelerate"};
+			delay=0.4
+		},{
+			{part="Trigger";c1=cf(-1.6,0.15,-0.46)*angles(12*deg,23*deg,47*deg),t=1.9,eq="accelerate"};
+			{part="Mag",clone="dropmag",transparency=1};
+			{part="dropmag",drop=true,transparency=0},
+			delay=0.2
+		},{
+			{part="rarm";c1=cf(0.27,-1.83,2.51)*angles(75*deg,-4*deg,-2*deg),t=0.8,eq="accelerate"};
+			{part="Mag";c1=cf(0.29,-1.96,1.57)*angles(102*deg,69*deg,-133*deg),t=.8,eq="accelerate"};
+			delay=0.8
+		},{
+			{part="rarm";c1=cf(0.14,-1.11,1.93)*angles(92*deg,5*deg,-4*deg),t=0.8,eq="accelerate"};
+			{part="Mag";c1=cf(-0.13,-0.9,0.93)*angles(-115*deg,100*deg,115*deg),transparency=0,t=0.8,eq="accelerate"};
+			delay=0.6
+		},{
+			{part="rarm";c1=cf(0.14,-0.85,1.92)*angles(87*deg,2*deg,-5*deg),t=0.3,eq="decelerate"};
+			{part="Mag";c1=cf(0,-0.7,0.97)*angles(0*deg,90*deg,0*deg),t=0.3,eq="decelerate"};
+			delay=0.2
+		},{
+			{part="Flame";sound=true,soundid="http://roblox.com/asset/?id=147323220",p=1.8,v=1,tp=0.7,d=0.5};
+			delay=0.1
+		},{
+			{part="Trigger";c1=cf(-1.87,0.25,-0.57)*angles(19*deg,16*deg,46*deg),t=1,eq={0,1,0.2,-0}};
+			delay=0.5
+		},{
+			{part="rarm";c1=cf(0.15,-0.71,1.92)*angles(97*deg,2*deg,-5*deg),t=0.15,eq="decelerate"};
+			{part="Mag";c1="base",t=0.15,eq="decelerate"};
+			delay=0.2
+		},{
+			{part="Trigger";c1=cf(-1.9,0.35,-0.57)*angles(-5*deg,10*deg,46*deg),t=0.5,eq={0,1,0.2,-0}};
+			delay=0.5
+		},{
+			{part="rarm";c1=cf(0.1,-0.25,1)*angles(90*deg,0*deg,-5*deg),t=0.6,eq="decelerate"};
+			delay=0.2
+		},{
+			{part="Trigger";c1=cf(0.08,-0.13,-0.11)*angles(6*deg,0*deg,-10*deg),t=1.5,eq="smooth"};
+			delay=0.5
+		},{
+			{part="larm";c1=cf(-0.63,-0.35,-0.11)*angles(115*deg,12*deg,19*deg),t=0.8,eq="decelerate"};
+			delay=0.7
+		},{
+			{part="larm";c1=cf(-0.63,-0.36,0.47)*angles(115*deg,12*deg,19*deg),t=0.25,eq="accelerate"};
+			{part="Bolt";c1=cf(-0.17,0.31,-0.06)*angles(0*deg,90*deg,0*deg),t=0.25,eq="accelerate"};
+			{part="Flame";sound=true,soundid="http://roblox.com/asset/?id=152206302",p=1.5,v=1,tp=0.1,d=0.1};
+			delay=0.15
+		},{
+			{part="Trigger";c1=cf(0.13,0.35,0.3)*angles(24*deg,0*deg,-15*deg),t=0.6,eq={0,1.5,0.4,-0.1}};
+			delay=0.1
+		},{
+			{part="Bolt";c1="base",t=0.25,eq="accelerate"};
+			{part="larm";c1=cf(-0.7,-0.4,0.5)*angles(115*deg,12*deg,19*deg),t=0.2,eq="decelerate"};
+			{part="Flame";sound=true,soundid="http://roblox.com/asset/?id=152206337",p=1.5,v=1,tp=0,d=0.1};
+			delay=0.5
+		},
+	};
+}
+
+return gunData end)()
+
+network:bounce("equip", game.Players.LocalPlayer, thegun);
 table.insert(EVILCONNECTIONS, game:GetService("RunService").RenderStepped:Connect(function(dt)
 	replication.step(dt);
 end))
